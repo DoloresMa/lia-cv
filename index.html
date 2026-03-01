@@ -74,6 +74,13 @@ body {
   align-items: center;
 }
 
+.avatar-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  align-items: center;
+}
+
 .avatar-wrap {
   width: 130px;
   height: 130px;
@@ -101,6 +108,16 @@ body {
   font-weight: 800;
   color: #3b4448;
   letter-spacing: 0.05em;
+}
+
+.avatar-upload-btn {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.42rem 0.75rem;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  font-size: 0.8rem;
+  cursor: pointer;
 }
 
 .kicker {
@@ -281,6 +298,36 @@ ul {
   transform: translateY(0);
 }
 
+.email-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 23, 25, 0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 70;
+}
+
+.email-modal.show {
+  display: flex;
+}
+
+.email-modal-card {
+  width: min(420px, 92vw);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.email-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+
 .note {
   color: var(--muted);
   font-size: 0.92rem;
@@ -317,14 +364,19 @@ ul {
     </nav>
 
     <div class="hero-content">
-      <div class="avatar-wrap" aria-label="Lia profile photo">
-        <img
-          class="avatar-photo"
-          src="profile.jpg"
-          alt="Lia portrait"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
-        />
-        <div class="avatar-fallback" style="display:none;">L</div>
+      <div class="avatar-box">
+        <div class="avatar-wrap" aria-label="Lia profile photo">
+          <img
+            class="avatar-photo"
+            id="avatarPhoto"
+            src=""
+            alt="Lia portrait"
+            style="display:none;"
+          />
+          <div class="avatar-fallback" id="avatarFallback">L</div>
+        </div>
+        <button class="avatar-upload-btn" id="uploadAvatarBtn" type="button">Upload Photo</button>
+        <input id="avatarInput" type="file" accept="image/*" hidden />
       </div>
 
       <div>
@@ -473,24 +525,67 @@ ul {
       <h2>Let's Connect</h2>
       <p>I am available for internship and full-time analytics roles in Hong Kong.</p>
       <div class="contact-links">
-        <a class="btn" href="mailto:u3655210@connect.hku.hk">Email Lia</a>
+        <button class="btn" type="button" id="openEmailModalBtn">Email Lia</button>
         <a class="btn btn-ghost" href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
       </div>
-      <div class="contact-row">
-        <span class="email-text" id="emailText">u3655210@connect.hku.hk</span>
-        <button class="copy-btn" id="copyEmailBtn" type="button">Copy Email</button>
-      </div>
-      <p class="note">Tip: LinkedIn URL can still be replaced with your real profile link.</p>
+      <p class="note">Tip: click “Email Lia” to open Copy/Open-Mail actions.</p>
     </section>
   </main>
+  <div class="email-modal" id="emailModal" aria-hidden="true">
+    <div class="email-modal-card" role="dialog" aria-modal="true" aria-labelledby="emailDialogTitle">
+      <h3 id="emailDialogTitle">Contact Lia</h3>
+      <div class="contact-row">
+        <span class="email-text" id="emailText">u3655210@connect.hku.hk</span>
+      </div>
+      <div class="email-modal-actions">
+        <button class="copy-btn" id="copyEmailBtn" type="button">Copy</button>
+        <a class="btn" id="openMailBtn" href="mailto:u3655210@connect.hku.hk">Open Mail</a>
+        <button class="copy-btn" id="closeEmailModalBtn" type="button">Close</button>
+      </div>
+    </div>
+  </div>
   <div class="toast" id="copyToast" role="status" aria-live="polite">Email copied.</div>
   <script>
     (function () {
+      const EMAIL = "u3655210@connect.hku.hk";
       const copyBtn = document.getElementById("copyEmailBtn");
       const emailText = document.getElementById("emailText");
       const toast = document.getElementById("copyToast");
+      const openEmailModalBtn = document.getElementById("openEmailModalBtn");
+      const closeEmailModalBtn = document.getElementById("closeEmailModalBtn");
+      const emailModal = document.getElementById("emailModal");
+      const openMailBtn = document.getElementById("openMailBtn");
+      const avatarPhoto = document.getElementById("avatarPhoto");
+      const avatarFallback = document.getElementById("avatarFallback");
+      const uploadAvatarBtn = document.getElementById("uploadAvatarBtn");
+      const avatarInput = document.getElementById("avatarInput");
 
       if (!copyBtn || !emailText || !toast) return;
+      emailText.textContent = EMAIL;
+      if (openMailBtn) openMailBtn.href = "mailto:" + EMAIL;
+
+      function openEmailModal() {
+        if (!emailModal) return;
+        emailModal.classList.add("show");
+        emailModal.setAttribute("aria-hidden", "false");
+      }
+
+      function closeEmailModal() {
+        if (!emailModal) return;
+        emailModal.classList.remove("show");
+        emailModal.setAttribute("aria-hidden", "true");
+      }
+
+      if (openEmailModalBtn) openEmailModalBtn.addEventListener("click", openEmailModal);
+      if (closeEmailModalBtn) closeEmailModalBtn.addEventListener("click", closeEmailModal);
+      if (emailModal) {
+        emailModal.addEventListener("click", function (e) {
+          if (e.target === emailModal) closeEmailModal();
+        });
+      }
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeEmailModal();
+      });
 
       copyBtn.addEventListener("click", async function () {
         const email = emailText.textContent.trim();
@@ -503,6 +598,40 @@ ul {
         toast.classList.add("show");
         setTimeout(() => toast.classList.remove("show"), 1500);
       });
+
+      function showAvatar(src) {
+        if (!avatarPhoto || !avatarFallback) return;
+        avatarPhoto.src = src;
+        avatarPhoto.style.display = "block";
+        avatarFallback.style.display = "none";
+      }
+
+      const savedAvatar = localStorage.getItem("lia_avatar_dataurl");
+      if (savedAvatar) {
+        showAvatar(savedAvatar);
+      }
+
+      if (uploadAvatarBtn && avatarInput) {
+        uploadAvatarBtn.addEventListener("click", function () {
+          avatarInput.click();
+        });
+
+        avatarInput.addEventListener("change", function () {
+          const file = avatarInput.files && avatarInput.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            const result = event.target && event.target.result;
+            if (typeof result !== "string") return;
+            localStorage.setItem("lia_avatar_dataurl", result);
+            showAvatar(result);
+            toast.textContent = "Photo updated.";
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 1500);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
     })();
   </script>
 </body>
