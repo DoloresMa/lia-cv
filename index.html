@@ -68,6 +68,39 @@ body {
 
 .hero-content {
   padding: 2.8rem 0 3.6rem;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1.1rem;
+  align-items: center;
+}
+
+.avatar-wrap {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: relative;
+  background: radial-gradient(circle at 32% 28%, #f2f3f3, #d6dddc 70%);
+}
+
+.avatar-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #3b4448;
+  letter-spacing: 0.05em;
 }
 
 .kicker {
@@ -196,6 +229,58 @@ ul {
   margin-bottom: 3rem;
 }
 
+.contact-row {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+  align-items: center;
+}
+
+.email-text {
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255, 255, 255, 0.75);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.92rem;
+}
+
+.copy-btn {
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  padding: 0.6rem 0.9rem;
+  background: transparent;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: var(--card);
+  color: var(--ink);
+  padding: 0.6rem 0.8rem;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 160ms ease, transform 160ms ease;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .note {
   color: var(--muted);
   font-size: 0.92rem;
@@ -204,6 +289,8 @@ ul {
 @media (max-width: 760px) {
   .hero-content {
     padding-top: 1.6rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .card-head {
@@ -230,22 +317,34 @@ ul {
     </nav>
 
     <div class="hero-content">
-      <p class="kicker">Hong Kong Job Seeker</p>
-      <h1>Lia</h1>
-      <p class="lead">
-        HKU MSc Business Analytics candidate with top academic performance and hands-on analytics experience
-        across e-commerce and financial services.
-      </p>
-      <div class="chips">
-        <span>Python</span>
-        <span>SQL</span>
-        <span>Excel / Power Query</span>
-        <span>Power BI</span>
-        <span>Tableau</span>
+      <div class="avatar-wrap" aria-label="Lia profile photo">
+        <img
+          class="avatar-photo"
+          src="profile.jpg"
+          alt="Lia portrait"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+        />
+        <div class="avatar-fallback" style="display:none;">L</div>
       </div>
-      <div class="hero-actions">
-        <a class="btn" href="#experience">View Experience</a>
-        <a class="btn btn-ghost" href="#contact">Hire Me in HK</a>
+
+      <div>
+        <p class="kicker">Hong Kong Job Seeker</p>
+        <h1>Lia</h1>
+        <p class="lead">
+          HKU MSc Business Analytics candidate with top academic performance and hands-on analytics experience
+          across e-commerce and financial services.
+        </p>
+        <div class="chips">
+          <span>Python</span>
+          <span>SQL</span>
+          <span>Excel / Power Query</span>
+          <span>Power BI</span>
+          <span>Tableau</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn" href="#experience">View Experience</a>
+          <a class="btn btn-ghost" href="#contact">Hire Me in HK</a>
+        </div>
       </div>
     </div>
   </header>
@@ -374,11 +473,37 @@ ul {
       <h2>Let's Connect</h2>
       <p>I am available for internship and full-time analytics roles in Hong Kong.</p>
       <div class="contact-links">
-        <a class="btn" href="mailto:lia@email.com">Email Lia</a>
+        <a class="btn" href="mailto:u3655210@connect.hku.hk">Email Lia</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
       </div>
-      <p class="note">Tip: replace the email and LinkedIn URL with your real contact details.</p>
+      <div class="contact-row">
+        <span class="email-text" id="emailText">u3655210@connect.hku.hk</span>
+        <button class="copy-btn" id="copyEmailBtn" type="button">Copy Email</button>
+      </div>
+      <p class="note">Tip: LinkedIn URL can still be replaced with your real profile link.</p>
     </section>
   </main>
+  <div class="toast" id="copyToast" role="status" aria-live="polite">Email copied.</div>
+  <script>
+    (function () {
+      const copyBtn = document.getElementById("copyEmailBtn");
+      const emailText = document.getElementById("emailText");
+      const toast = document.getElementById("copyToast");
+
+      if (!copyBtn || !emailText || !toast) return;
+
+      copyBtn.addEventListener("click", async function () {
+        const email = emailText.textContent.trim();
+        try {
+          await navigator.clipboard.writeText(email);
+          toast.textContent = "Email copied.";
+        } catch (err) {
+          toast.textContent = "Copy failed. Please copy manually.";
+        }
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1500);
+      });
+    })();
+  </script>
 </body>
 </html>
