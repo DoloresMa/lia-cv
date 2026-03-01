@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lia | Business Analytics Candidate</title>
+  <meta
+    name="description"
+    content="Lia - HKU MSc Business Analytics candidate with internship experience in e-commerce and financial services."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+<style>
+:root {
+  --bg: #f6f7f3;
+  --ink: #121719;
+  --muted: #445055;
+  --card: rgba(255, 255, 255, 0.86);
+  --line: rgba(18, 23, 25, 0.13);
+  --accent: #0f766e;
+  --accent-2: #d97706;
+  --shadow: 0 20px 45px rgba(16, 22, 24, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 10% 5%, rgba(15, 118, 110, 0.2), transparent 35%),
+    radial-gradient(circle at 85% 15%, rgba(217, 119, 6, 0.18), transparent 40%),
+    linear-gradient(180deg, #f4f6f2 0%, #e8ece8 100%);
+}
+
+.hero,
+.section {
+  width: min(1000px, 92vw);
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 0;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: 0.18rem;
+}
+
+.hero-content {
+  padding: 2.8rem 0 3.6rem;
+}
+
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.78rem;
+  margin-bottom: 0.3rem;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+h1,
+h2 {
+  font-family: "Playfair Display", serif;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  margin-bottom: 0.9rem;
+}
+
+.lead {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.25rem 0 1.5rem;
+}
+
+.chips span {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.92rem;
+}
+
+.hero-actions,
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.btn {
+  display: inline-block;
+  border: 1px solid transparent;
+  border-radius: 0.8rem;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 0.68rem 1rem;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 118, 110, 0.28);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 0.95rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.9rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  margin-bottom: 0.3rem;
+}
+
+.card-head span {
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+ul {
+  padding-left: 1rem;
+  margin: 0.4rem 0 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.contact {
+  margin-bottom: 3rem;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 760px) {
+  .hero-content {
+    padding-top: 1.6rem;
+  }
+
+  .card-head {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .card-head span {
+    white-space: normal;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="page-bg"></div>
+  <header class="hero">
+    <nav class="topbar">
+      <div class="brand">LIA</div>
+      <a class="btn btn-ghost" href="#contact">Contact</a>
+    </nav>
+
+    <div class="hero-content">
+      <p class="kicker">Hong Kong Job Seeker</p>
+      <h1>Lia</h1>
+      <p class="lead">
+        HKU MSc Business Analytics candidate with top academic performance and hands-on analytics experience
+        across e-commerce and financial services.
+      </p>
+      <div class="chips">
+        <span>Python</span>
+        <span>SQL</span>
+        <span>Excel / Power Query</span>
+        <span>Power BI</span>
+        <span>Tableau</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn" href="#experience">View Experience</a>
+        <a class="btn btn-ghost" href="#contact">Hire Me in HK</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="summary">
+      <h2>Profile</h2>
+      <p>
+        I am targeting Business Analyst, Analytics Consultant, and Transformation Analyst roles in Hong Kong.
+        I bring structured KPI tracking, funnel diagnostics, and reporting automation skills, with proven impact
+        in growth, inventory, and client service operations.
+      </p>
+    </section>
+
+    <section class="section" id="education">
+      <h2>Education</h2>
+      <article class="card">
+        <div class="card-head">
+          <h3>The University of Hong Kong</h3>
+          <span>Sep 2025 - Present</span>
+        </div>
+        <p>MSc in Business Analytics, HKU Business School</p>
+        <ul>
+          <li>GPA: 3.75/4.3 (Top 20%)</li>
+          <li>
+            Relevant modules: Python for Data Analytics, Business Statistics, Operations Analytics,
+            Decision Analytics, Forecasting & Predictive Analytics, Machine Learning, Generative AI
+          </li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3>Jinan University (Double First-Class), Guangzhou</h3>
+          <span>Sep 2021 - Jul 2025</span>
+        </div>
+        <p>Bachelor of Economics in International Economics & Trade</p>
+        <ul>
+          <li>GPA: 4.33/5.0, Ranked 1/75</li>
+          <li>
+            Awards: China National Scholarship, Outstanding Graduate, First-Class Scholarship,
+            Excellent Student Honorable Title
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" id="experience">
+      <h2>Internship Experience</h2>
+
+      <article class="card">
+        <div class="card-head">
+          <h3>Thousandshores Co., Ltd. - E-commerce Operations Analyst Intern (Amazon)</h3>
+          <span>Jun 2025 - Aug 2025</span>
+        </div>
+        <ul>
+          <li>Analyzed demand and pricing across 20+ SKUs and supported 3 new product launches.</li>
+          <li>Improved conversion rate by 12% across 10 SKUs through funnel diagnostics and pricing/listing fixes.</li>
+          <li>Reduced stockout incidents by 15% using Excel-based demand and lead-time models.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3>Huatai Securities Co., Ltd. - Research & Analytics Intern</h3>
+          <span>Jun 2024 - Aug 2024</span>
+        </div>
+        <ul>
+          <li>Conducted sector research and Python-based peer benchmarking for 10 companies.</li>
+          <li>Delivered 10+ executive-ready visuals to support industry analysis.</li>
+          <li>Analyzed 200+ client inquiries and built an FAQ playbook that reduced response time by 30%.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3>Yinhua Fund Management Co., Ltd. - Channel Sales Intern</h3>
+          <span>Jan 2024 - Mar 2024</span>
+        </div>
+        <ul>
+          <li>Applied Python text analysis to partner feedback across 5 banking channels.</li>
+          <li>Identified 3 recurring issues and improved communication standardization with partners.</li>
+          <li>Automated weekly reporting with Excel Power Query, saving 3+ hours per cycle.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" id="projects">
+      <h2>Project Leadership</h2>
+      <article class="card">
+        <div class="card-head">
+          <h3>Embedded Elderly Care Service Gap Analysis - Team Leader</h3>
+          <span>Mar 2023 - Mar 2024</span>
+        </div>
+        <ul>
+          <li>Led a 5-person team and evaluated service provision across 12+ elderly care facilities.</li>
+          <li>Designed and executed 400+ resident surveys and one-on-one interviews.</li>
+          <li>Won 3rd Prize in the university-level Innovation & Entrepreneurship Challenge Cup.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" id="skills">
+      <h2>Skills & Certifications</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Technical</h3>
+          <p>Python (Pandas, NumPy), SQL, R, Excel (Power Query, VBA), Power BI, Tableau, Stata, SPSS</p>
+        </div>
+        <div class="card">
+          <h3>AI-Assisted Workflow</h3>
+          <p>Prompting, validation & calibration, verification, workflow integration</p>
+        </div>
+        <div class="card">
+          <h3>Certifications</h3>
+          <p>GMAT 680, FRM Part I, Securities & Futures Professional Qualification (China)</p>
+        </div>
+        <div class="card">
+          <h3>Languages</h3>
+          <p>English (IELTS 7.5), Mandarin (Native)</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <h2>Let's Connect</h2>
+      <p>I am available for internship and full-time analytics roles in Hong Kong.</p>
+      <div class="contact-links">
+        <a class="btn" href="mailto:lia@email.com">Email Lia</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+      <p class="note">Tip: replace the email and LinkedIn URL with your real contact details.</p>
+    </section>
+  </main>
+</body>
+</html>
